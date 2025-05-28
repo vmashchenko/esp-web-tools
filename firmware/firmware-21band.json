@@ -1,12 +1,12 @@
 {
-  "name": "Spectrum Analyzer - Advanced",
+  "name": "Spectrum Analyzer - 21 Band",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "firmware/advanced.bin",
+          "path": "firmware/firmware-21band.bin",
           "offset": 0
         }
       ]

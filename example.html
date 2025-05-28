@@ -87,19 +87,19 @@
         <!-- Выбор прошивки -->
         <div class="firmware-selector">
             <label>
-                <input type="radio" name="firmware" value="standard" checked>
-                Standard Version (Basic features)
+                <input type="radio" name="firmware" value="firmware-16band" checked>
+                16-Band Spectrum Analyzer
             </label>
             <br>
             <label>
-                <input type="radio" name="firmware" value="advanced">
-                Advanced Version (Additional features)
+                <input type="radio" name="firmware" value="firmware-21band">
+                21-Band Spectrum Analyzer (Advanced)
             </label>
         </div>
         
         <!-- Кнопка прошивки ESP -->
         <div class="esp-button">
-            <esp-web-install-button id="installButton" manifest="firmware/standard.json">
+            <esp-web-install-button id="installButton" manifest="firmware/firmware-16band.json">
                 <span slot="unsupported">Your browser doesn't support Web Serial API. Please use Chrome/Edge 89+ or Opera 76+</span>
                 <span slot="not-allowed">Serial port access is required. Please grant permission when prompted.</span>
                 <span slot="not-found">Firmware not found. Please check the firmware files.</span>
@@ -131,6 +131,8 @@
                 radio.addEventListener('change', (e) => {
                     if (e.target.checked) {
                         const firmwareType = e.target.value;
+                        // Удаляем префикс 'firmware-' из значения для отображения
+                        const displayName = firmwareType.replace('firmware-', '').replace('band', '-Band');
                         installButton.manifest = `firmware/${firmwareType}.json`;
                         showStatus(`Selected firmware: ${firmwareType}`, 'success');
                     }
