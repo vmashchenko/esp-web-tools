@@ -1,0 +1,15 @@
+{
+  "name": "Spectrum Analyzer - Advanced",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "firmware/advanced.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}

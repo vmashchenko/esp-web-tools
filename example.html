@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP Web Tools - Spectrum Analyzer</title>
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,11 +27,29 @@
             border-radius: 8px;
             display: inline-block;
         }
+        .firmware-selector {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .firmware-selector label {
+            display: block;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .firmware-selector input[type="radio"] {
+            margin-right: 10px;
+        }
+        
         .instructions {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
-            margin-top: 30px;
+            margin-top: 20px;
             text-align: left;
         }
         code {
@@ -39,6 +58,23 @@
             border-radius: 3px;
             font-family: monospace;
         }
+        
+        #status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
     </style>
     <!-- Подключаем ESP Web Tools -->
     <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
@@ -46,15 +82,27 @@
 <body>
     <div class="container">
         <h1>ESP Web Tools - Spectrum Analyzer</h1>
-        <p>Click the button below to start flashing your ESP device with Spectrum Analyzer firmware</p>
+        <p>Select firmware version and click the button below to start flashing your ESP device</p>
+        
+        <!-- Выбор прошивки -->
+        <div class="firmware-selector">
+            <label>
+                <input type="radio" name="firmware" value="standard" checked>
+                Standard Version (Basic features)
+            </label>
+            <br>
+            <label>
+                <input type="radio" name="firmware" value="advanced">
+                Advanced Version (Additional features)
+            </label>
+        </div>
         
         <!-- Кнопка прошивки ESP -->
         <div class="esp-button">
-            <esp-web-install-button
-                manifest="spectrum-analyzer-manifest.json"
-            >
+            <esp-web-install-button id="installButton" manifest="firmware/standard.json">
                 <span slot="unsupported">Your browser doesn't support Web Serial API. Please use Chrome/Edge 89+ or Opera 76+</span>
                 <span slot="not-allowed">Serial port access is required. Please grant permission when prompted.</span>
+                <span slot="not-found">Firmware not found. Please check the firmware files.</span>
             </esp-web-install-button>
         </div>
 
@@ -69,5 +117,66 @@
             <p><strong>Note:</strong> HTTPS or localhost is required</p>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const installButton = document.getElementById('installButton');
+            const firmwareRadios = document.querySelectorAll('input[name="firmware"]');
+            const statusDiv = document.createElement('div');
+            statusDiv.id = 'status';
+            installButton.parentNode.insertBefore(statusDiv, installButton.nextSibling);
+            
+            // Обработчик изменения выбора прошивки
+            firmwareRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        const firmwareType = e.target.value;
+                        installButton.manifest = `firmware/${firmwareType}.json`;
+                        showStatus(`Selected firmware: ${firmwareType}`, 'success');
+                    }
+                });
+            });
+            
+            // Функция для отображения статуса
+            function showStatus(message, type) {
+                statusDiv.textContent = message;
+                statusDiv.className = type;
+                statusDiv.style.display = 'block';
+                
+                // Скрыть статус через 5 секунд
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Обработчики ошибок
+            installButton.addEventListener('manifestfetched', (e) => {
+                if (e.detail.firmware) {
+                    showStatus(`Firmware found: ${e.detail.firmware.name}`, 'success');
+                }
+            });
+            
+            installButton.addEventListener('downloadstarted', () => {
+                showStatus('Starting firmware download...', 'success');
+            });
+            
+            installButton.addEventListener('downloadprogress', (e) => {
+                const percent = Math.round((e.detail.progress * 100) / e.detail.total);
+                showStatus(`Downloading: ${percent}%`, 'success');
+            });
+            
+            installButton.addEventListener('downloadfinished', () => {
+                showStatus('Firmware downloaded, starting installation...', 'success');
+            });
+            
+            installButton.addEventListener('installsuccess', () => {
+                showStatus('Firmware installed successfully!', 'success');
+            });
+            
+            installButton.addEventListener('error', (e) => {
+                showStatus(`Error: ${e.detail.message}`, 'error');
+            });
+        });
+    </script>
 </body>
 </html>

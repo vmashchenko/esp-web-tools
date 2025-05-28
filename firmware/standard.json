@@ -1,0 +1,15 @@
+{
+  "name": "Spectrum Analyzer - Standard",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+        {
+          "path": "firmware/standard.bin",
+          "offset": 0
+        }
+      ]
+    }
+  ]
+}
