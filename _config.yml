@@ -1,0 +1,14 @@
+# Настройки для GitHub Pages
+title: ESP Web Tools - Spectrum Analyzer
+description: Web interface for flashing Spectrum Analyzer firmware to ESP devices
+baseurl: "/esp-web-tools" # Имя репозитория
+url: "https://vmashchenko.github.io" # Ваш GitHub username
+
+theme: jekyll-theme-cayman
+
+# Настройки для Jekyll
+plugins:
+  - jekyll-feed
+
+# Настройки для ESP Web Tools
+include: ["example.html", "spectrum-analyzer-manifest.json", "merged-firmware.bin"]
