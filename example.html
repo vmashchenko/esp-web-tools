@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Web Tools - Firmware Installer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .esp-button {
+            margin: 30px 0;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+    <!-- Подключаем ESP Web Tools -->
+    <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>ESP Web Tools</h1>
+        <p>Click the button below to start flashing your ESP device</p>
+        
+        <!-- Кнопка прошивки ESP -->
+        <div class="esp-button">
+            <esp-web-install-button
+                manifest="my-firmware-manifest.json"
+            >
+                <span slot="unsupported">Your browser doesn't support Web Serial API. Please use Chrome/Edge 89+ or Opera 76+</span>
+                <span slot="not-allowed">Serial port access is required. Please grant permission when prompted.</span>
+            </esp-web-install-button>
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <ol>
+                <li>Connect your ESP device to the computer via USB</li>
+                <li>Click the button above</li>
+                <li>Select your device from the list</li>
+                <li>Wait for the flashing to complete</li>
+            </ol>
+            <p><strong>Note:</strong> HTTPS or localhost is required</p>
+        </div>
+    </div>
+</body>
+</html>
