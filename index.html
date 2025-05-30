@@ -258,8 +258,7 @@
             if (versions.length > 0) {
                 const latest = versions[0]; // Most recent version first
                 const label = element.nextElementSibling;
-                label.querySelector('.fw-version').textContent = `v${latest.version}`;
-                label.querySelector('.fw-date').textContent = `(${latest.date})`;
+                label.querySelector('.fw-version').textContent = `v${latest.version} (${latest.date})`;
                 label.querySelector('.fw-description').textContent = latest.description;
                 
                 // If this is the selected firmware, update the version selector
@@ -285,7 +284,7 @@
                 versions.forEach((version, index) => {
                     const option = document.createElement('option');
                     option.value = version.version;
-                    option.textContent = `v${version.version} (${version.date})`;
+                    option.textContent = `v${version.version}`;
                     if (index === 0) option.selected = true;
                     selector.appendChild(option);
                 });
@@ -309,9 +308,6 @@
             if (!version) return;
             
             versionInfo.innerHTML = `
-                <div><strong>Version:</strong> v${version.version}</div>
-                <div><strong>Released:</strong> ${version.date}</div>
-                <div><strong>Size:</strong> ${(version.size / 1024).toFixed(1)} KB</div>
                 <div><strong>Description:</strong> ${version.description}</div>
             `;
         }
