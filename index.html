@@ -59,12 +59,7 @@
             margin-bottom: 5px;
         }
         
-        .fw-version {
-            display: inline-block;
-            margin-right: 15px;
-            font-size: 0.9em;
-            color: #666;
-        }
+
         
         .version-select {
             margin: 10px 0;
@@ -160,14 +155,12 @@
                     <input type="radio" id="firmware-16band" name="firmware" value="firmware-16band" checked>
                     <label for="firmware-16band">
                         <span class="fw-title">16-Band Spectrum Analyzer</span>
-                        <span class="fw-version">Loading versions...</span>
                     </label>
                 </div>
                 <div class="firmware-version">
                     <input type="radio" id="firmware-21band" name="firmware" value="firmware-21band">
                     <label for="firmware-21band">
                         <span class="fw-title">21-Band Spectrum Analyzer</span>
-                        <span class="fw-version">Loading versions...</span>
                     </label>
                 </div>
             </div>
@@ -244,11 +237,6 @@
             const element = document.getElementById(`firmware-${type}`);
             
             if (versions.length > 0) {
-                const latest = versions[0]; // Most recent version first
-                const label = element.nextElementSibling;
-                label.querySelector('.fw-version').textContent = `v${latest.version}`;
-                label.querySelector('.fw-description').textContent = latest.description;
-                
                 // If this is the selected firmware, update the version selector
                 if (element.checked) {
                     updateVersionSelector(type);
