@@ -1,0 +1,18 @@
+{
+  "versions": [
+    {
+      "file": "21band-v1.0.0.bin",
+      "version": "1.0.0",
+      "date": "2025-05-29",
+      "description": "Initial release of 21-band spectrum analyzer firmware",
+      "size": 526288
+    },
+    {
+      "file": "21band-v1.0.1.bin",
+      "version": "1.0.1",
+      "date": "2025-05-30",
+      "description": "Improved FFT algorithm for better frequency response",
+      "size": 526300
+    }
+  ]
+}
