@@ -174,7 +174,7 @@
         
         <!-- Кнопка прошивки ESP -->
         <div class="esp-button">
-            <esp-web-install-button id="installButton" manifest="firmware-16band.json">
+            <esp-web-install-button id="installButton" manifest="firmware/16band/firmware-1.0.0.json">
                 <span slot="unsupported">Your browser doesn't support Web Serial API. Please use Chrome/Edge 89+ or Opera 76+</span>
                 <span slot="not-allowed">Serial port access is required. Please grant permission when prompted.</span>
                 <span slot="not-found">Firmware not found. Please check the firmware files.</span>
@@ -306,7 +306,7 @@
                     if (e.target.checked) {
                         const firmwareType = e.target.value.replace('firmware-', '');
                         updateVersionSelector(firmwareType);
-                        installButton.manifest = `firmware-${firmwareType}.json`;
+                        installButton.manifest = `firmware/${firmwareType}/firmware-1.0.${firmwareType === '21band' ? '1' : '0'}.json`;
                         showStatus(`Selected firmware: ${firmwareType}`, 'success');
                     }
                 });
