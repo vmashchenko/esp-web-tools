@@ -5,7 +5,7 @@
       "version": "1.0.0",
       "date": "2025-01-01",
       "description": "Initial release of 21-band spectrum analyzer firmware",
-      "size": 526288
+      "size": 526000
     },
     {
       "file": "21band-v1.0.1.bin",
