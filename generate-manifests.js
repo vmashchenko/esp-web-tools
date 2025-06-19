@@ -3,7 +3,7 @@ const path = require('path');
 
 function generateManifests() {
   const baseUrl = 'https://raw.githubusercontent.com/vmashchenko/esp-web-tools/gh-pages';
-  const firmwareDirs = ['16band', '21band'];
+  const firmwareDirs = ['14band', '16band', '21band'];
   
   firmwareDirs.forEach(dir => {
     const metadataPath = path.join('firmware', dir, 'metadata.json');
@@ -14,13 +14,14 @@ function generateManifests() {
         const manifest = {
           name: `Spectrum Analyzer ${dir} v${version.version}`,
           version: version.version,
+          new_install_prompt_erase: true,
           builds: [
             {
               chipFamily: "ESP32",
               parts: [
                 { 
                   path: `firmware/${dir}/${version.file}`,
-                  offset: 0x10000
+                  offset: 0x0
                 }
               ]
             }

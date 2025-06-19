@@ -1,0 +1,11 @@
+{
+  "type": "14band",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "file": "14band-v1.0.0.bin",
+      "date": "2025-01-01",
+      "description": "Initial release of 14-band firmware"
+    }
+  ]
+}
