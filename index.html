@@ -71,11 +71,69 @@
         }
         
         .version-info {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f0f8ff;
-            border-radius: 4px;
-            border-left: 4px solid #4a90e2;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .version-info-header {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1.1em;
+        }
+        
+        .version-detail {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .version-detail.description {
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            min-width: 120px;
+            margin-right: 10px;
+        }
+        
+        .detail-value {
+            color: #2d3748;
+            flex: 1;
+        }
+        
+        .changes-list {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+        }
+        
+        .changes-list li {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+        
+        .no-version {
+            color: #718096;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            .version-detail {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                margin-bottom: 5px;
+            }
         }
         
         .firmware-selector label {
@@ -174,7 +232,10 @@
             <div id="versionSelector" style="display: none; margin-top: 15px;">
                 <label for="versionSelect">Select version:</label>
                 <select id="versionSelect" class="version-select"></select>
-                <div id="versionInfo" class="version-info"></div>
+                <div id="versionInfo" class="version-info">
+                    <div class="version-info-header">Version Information:</div>
+                    <div id="versionDetails"></div>
+                </div>
             </div>
         </div>
         
@@ -261,7 +322,9 @@
             selector.innerHTML = '';
             
             if (versions.length > 1) {
+                // Show version selector for multiple versions
                 versionSelector.style.display = 'block';
+                selector.style.display = 'block';
                 
                 versions.forEach((version, index) => {
                     const option = document.createElement('option');
@@ -279,19 +342,58 @@
                     const selectedVersion = versions.find(v => v.version === selector.value);
                     if (selectedVersion) updateVersionInfo(selectedVersion);
                 };
+            } else if (versions.length === 1) {
+                // For single version, hide the selector but still show the info
+                versionSelector.style.display = 'block';
+                selector.style.display = 'none';
+                updateVersionInfo(versions[0]);
             } else {
+                // No versions available
                 versionSelector.style.display = 'none';
             }
         }
         
         // Update version info display
         function updateVersionInfo(version) {
-            const versionInfo = document.getElementById('versionInfo');
-            if (!version) return;
+            const versionDetails = document.getElementById('versionDetails');
+            if (!version) {
+                versionDetails.innerHTML = '<div class="no-version">No version information available</div>';
+                return;
+            }
             
-            versionInfo.innerHTML = `
-                <div><strong>Description:</strong> ${version.description}</div>
-            `;
+            let infoHTML = `
+                <div class="version-detail">
+                    <span class="detail-label">Version:</span>
+                    <span class="detail-value">v${version.version}</span>
+                </div>`;
+                
+            if (version.date) {
+                infoHTML += `
+                <div class="version-detail">
+                    <span class="detail-label">Release Date:</span>
+                    <span class="detail-value">${version.date}</span>
+                </div>`;
+            }
+            
+            if (version.description) {
+                infoHTML += `
+                <div class="version-detail description">
+                    <span class="detail-label">Description:</span>
+                    <span class="detail-value">${version.description}</span>
+                </div>`;
+            }
+            
+            if (version.changes && version.changes.length > 0) {
+                infoHTML += `
+                <div class="version-detail">
+                    <span class="detail-label">Changes:</span>
+                    <ul class="changes-list">
+                        ${version.changes.map(change => `<li>${change}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }
+            
+            versionDetails.innerHTML = infoHTML;
         }
         
         // Initialize the page
