@@ -20,7 +20,7 @@ function generateManifests() {
               chipFamily: "ESP32",
               parts: [
                 { 
-                  path: `firmware/${dir}/${version.file}`,
+                  path: `${version.file}`,
                   offset: 0x0
                 }
               ]

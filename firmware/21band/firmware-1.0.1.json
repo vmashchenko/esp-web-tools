@@ -7,7 +7,7 @@
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "firmware/21band/21band-v1.0.1.bin",
+          "path": "21band-v1.0.1.bin",
           "offset": 0
         }
       ]
