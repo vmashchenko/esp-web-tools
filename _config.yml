@@ -11,4 +11,4 @@ plugins:
   - jekyll-feed
 
 # Настройки для ESP Web Tools
-include: ["example.html", "spectrum-analyzer-manifest.json", "merged-firmware.bin"]
+include: ["example.html", "merged-firmware.bin"]
