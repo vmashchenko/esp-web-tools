@@ -329,7 +329,13 @@
                 versions.forEach((version, index) => {
                     const option = document.createElement('option');
                     option.value = version.version;
-                    option.textContent = `v${version.version} (${version.date})`;
+                    // Format the date to be more readable (e.g., "Jan 1, 2025")
+                    const formattedDate = version.date ? new Date(version.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    }) : 'Unknown date';
+                    option.textContent = `v${version.version} (${formattedDate})`;
                     if (index === 0) option.selected = true;
                     selector.appendChild(option);
                 });
@@ -368,10 +374,15 @@
                 </div>`;
                 
             if (version.date) {
+                const formattedDate = new Date(version.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
                 infoHTML += `
                 <div class="version-detail">
                     <span class="detail-label">Release Date:</span>
-                    <span class="detail-value">${version.date}</span>
+                    <span class="detail-value">${formattedDate}</span>
                 </div>`;
             }
             
