@@ -52,7 +52,7 @@ function generateManifests() {
               parts: [
                 { 
                   path: `firmware/${dir}/${latest.file}`,
-                  offset: 0x10000
+                  offset: 0x0
                 }
               ]
             }
