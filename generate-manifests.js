@@ -41,26 +41,9 @@ function generateManifests() {
     if (fs.existsSync(metadataPath)) {
       const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
       if (metadata.versions.length > 0) {
-        const latest = metadata.versions[0]; // Assuming versions are sorted newest first
-        const mainManifestPath = `firmware-${dir}.json`;
-        const mainManifest = {
-          name: `Spectrum Analyzer ${dir} (Latest: v${latest.version})`,
-          version: latest.version,
-          builds: [
-            {
-              chipFamily: "ESP32",
-              parts: [
-                { 
-                  path: `firmware/${dir}/${latest.file}`,
-                  offset: 0x0
-                }
-              ]
-            }
-          ]
-        };
-        
-        fs.writeFileSync(mainManifestPath, JSON.stringify(mainManifest, null, 2));
-        console.log(`Updated main manifest: ${mainManifestPath}`);
+        // We only need the version-specific manifests in the firmware directory
+        // No need to generate root-level manifest files
+        console.log(`Processed ${dir} firmware versions`);
       }
     }
   });
