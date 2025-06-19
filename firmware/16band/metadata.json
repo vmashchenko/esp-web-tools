@@ -1,0 +1,11 @@
+{
+  "versions": [
+    {
+      "file": "16band-v1.0.0.bin",
+      "version": "1.0.0",
+      "date": "2025-05-28",
+      "description": "Initial release of 16-band spectrum analyzer firmware",
+      "size": 524288
+    }
+  ]
+}

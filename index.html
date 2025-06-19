@@ -35,6 +35,107 @@
             text-align: left;
         }
         
+        .firmware-version {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+        }
+        
+        .firmware-version label {
+            display: block;
+            cursor: pointer;
+            margin: 0;
+        }
+        
+        .firmware-version input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .fw-title {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+
+        
+        .version-select {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .version-info {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .version-info-header {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1.1em;
+        }
+        
+        .version-detail {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .version-detail.description {
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            min-width: 120px;
+            margin-right: 10px;
+        }
+        
+        .detail-value {
+            color: #2d3748;
+            flex: 1;
+        }
+        
+        .changes-list {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+        }
+        
+        .changes-list li {
+            margin: 5px 0;
+            color: #4a5568;
+        }
+        
+        .no-version {
+            color: #718096;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            .version-detail {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                margin-bottom: 5px;
+            }
+        }
+        
         .firmware-selector label {
             display: block;
             margin: 10px 0;
@@ -106,20 +207,41 @@
         
         <!-- Выбор прошивки -->
         <div class="firmware-selector">
-            <label>
-                <input type="radio" name="firmware" value="firmware-16band" checked>
-                16-Band Spectrum Analyzer (16band.bin)
-            </label>
-            <br>
-            <label>
-                <input type="radio" name="firmware" value="firmware-21band">
-                21-Band Spectrum Analyzer (21band.bin)
-            </label>
+            <h3>Select Firmware Version:</h3>
+            <div id="firmwareVersions">
+                <div class="firmware-version">
+                    <input type="radio" id="firmware-14band" name="firmware" value="firmware-14band">
+                    <label for="firmware-14band">
+                        <span class="fw-title">14-Band Spectrum Analyzer</span>
+                    </label>
+                </div>
+                <div class="firmware-version">
+                    <input type="radio" id="firmware-16band" name="firmware" value="firmware-16band" checked>
+                    <label for="firmware-16band">
+                        <span class="fw-title">16-Band Spectrum Analyzer</span>
+                    </label>
+                </div>
+                <div class="firmware-version">
+                    <input type="radio" id="firmware-21band" name="firmware" value="firmware-21band">
+                    <label for="firmware-21band">
+                        <span class="fw-title">21-Band Spectrum Analyzer</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="versionSelector" style="display: none; margin-top: 15px;">
+                <label for="versionSelect">Select version:</label>
+                <select id="versionSelect" class="version-select"></select>
+                <div id="versionInfo" class="version-info">
+                    <div class="version-info-header">Version Information:</div>
+                    <div id="versionDetails"></div>
+                </div>
+            </div>
         </div>
         
         <!-- Кнопка прошивки ESP -->
         <div class="esp-button">
-            <esp-web-install-button id="installButton" manifest="firmware-16band.json">
+            <esp-web-install-button id="installButton" manifest="firmware/16band/firmware-1.0.0.json">
                 <span slot="unsupported">Your browser doesn't support Web Serial API. Please use Chrome/Edge 89+ or Opera 76+</span>
                 <span slot="not-allowed">Serial port access is required. Please grant permission when prompted.</span>
                 <span slot="not-found">Firmware not found. Please check the firmware files.</span>
@@ -132,9 +254,9 @@
                 <li><strong>Connect your LED device</strong> to the computer via USB cable (use a data cable, not just a charging cable)</li>
                 <li><strong>Select the firmware version</strong> from the list above (16-Band or 21-Band)</li>
                 <li><strong>Click the "CONNECT" button</strong> that appears below</li>
-                <li>In the popup window, <strong>select your device port</strong> (it will look like <code>cu.whcusbserial1410</code> or similar)</li>
+                <li>In the popup window, <strong>select your device port</strong> (it will look like <code>usbserial-1410</code> or similar)</li>
                 <li>Click <strong>"Install Spectrum Analyzer XX-Band"</strong> (where XX is the number of bands you selected)</li>
-                <li>When prompted to erase the device, <strong>skip it</strong> (we don't need to erase the device)</li>
+                <li>When prompted to erase the device, <strong>select it</strong></li>
                 <li>Click <strong>"Next"</strong> to start the installation</li>
                 <li>Wait for the process to complete (up to 2 minutes) - you'll see a success message when done</li>
             </ol>
@@ -158,6 +280,134 @@
     </div>
     
     <script>
+        // Firmware metadata cache
+        const firmwareMetadata = {};
+        
+        // Load firmware metadata
+        async function loadFirmwareMetadata(type) {
+            try {
+                const response = await fetch(`firmware/${type}/metadata.json`);
+                if (!response.ok) throw new Error('Failed to load metadata');
+                const data = await response.json();
+                firmwareMetadata[type] = data.versions;
+                updateFirmwareDisplay(type);
+                return data.versions;
+            } catch (error) {
+                console.error(`Error loading ${type} metadata:`, error);
+                return [];
+            }
+        }
+        
+        // Update the firmware version display
+        function updateFirmwareDisplay(type) {
+            const versions = firmwareMetadata[type] || [];
+            const element = document.getElementById(`firmware-${type}`);
+            
+            if (versions.length > 0) {
+                // If this is the selected firmware, update the version selector
+                if (element.checked) {
+                    updateVersionSelector(type);
+                }
+            }
+        }
+        
+        // Update the version selector dropdown
+        function updateVersionSelector(type) {
+            const versions = firmwareMetadata[type] || [];
+            const selector = document.getElementById('versionSelect');
+            const versionInfo = document.getElementById('versionInfo');
+            const versionSelector = document.getElementById('versionSelector');
+            
+            // Clear existing options
+            selector.innerHTML = '';
+            
+            if (versions.length > 1) {
+                // Show version selector for multiple versions
+                versionSelector.style.display = 'block';
+                selector.style.display = 'block';
+                
+                versions.forEach((version, index) => {
+                    const option = document.createElement('option');
+                    option.value = version.version;
+                    // Format the date to be more readable (e.g., "Jan 1, 2025")
+                    const formattedDate = version.date ? new Date(version.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    }) : 'Unknown date';
+                    option.textContent = `v${version.version} (${formattedDate})`;
+                    if (index === 0) option.selected = true;
+                    selector.appendChild(option);
+                });
+                
+                // Show info for the selected version
+                updateVersionInfo(versions[0]);
+                
+                // Add change listener
+                selector.onchange = () => {
+                    const selectedVersion = versions.find(v => v.version === selector.value);
+                    if (selectedVersion) updateVersionInfo(selectedVersion);
+                };
+            } else if (versions.length === 1) {
+                // For single version, hide the selector but still show the info
+                versionSelector.style.display = 'block';
+                selector.style.display = 'none';
+                updateVersionInfo(versions[0]);
+            } else {
+                // No versions available
+                versionSelector.style.display = 'none';
+            }
+        }
+        
+        // Update version info display
+        function updateVersionInfo(version) {
+            const versionDetails = document.getElementById('versionDetails');
+            if (!version) {
+                versionDetails.innerHTML = '<div class="no-version">No version information available</div>';
+                return;
+            }
+            
+            let infoHTML = `
+                <div class="version-detail">
+                    <span class="detail-label">Version:</span>
+                    <span class="detail-value">v${version.version}</span>
+                </div>`;
+                
+            if (version.date) {
+                const formattedDate = new Date(version.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                infoHTML += `
+                <div class="version-detail">
+                    <span class="detail-label">Release Date:</span>
+                    <span class="detail-value">${formattedDate}</span>
+                </div>`;
+            }
+            
+            if (version.description) {
+                infoHTML += `
+                <div class="version-detail description">
+                    <span class="detail-label">Description:</span>
+                    <span class="detail-value">${version.description}</span>
+                </div>`;
+            }
+            
+            if (version.changes && version.changes.length > 0) {
+                infoHTML += `
+                <div class="version-detail">
+                    <span class="detail-label">Changes:</span>
+                    <ul class="changes-list">
+                        ${version.changes.map(change => `<li>${change}</li>`).join('')}
+                    </ul>
+                </div>`;
+            }
+            
+            versionDetails.innerHTML = infoHTML;
+        }
+        
+        // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
             const installButton = document.getElementById('installButton');
             const firmwareRadios = document.querySelectorAll('input[name="firmware"]');
@@ -165,17 +415,55 @@
             statusDiv.id = 'status';
             installButton.parentNode.insertBefore(statusDiv, installButton.nextSibling);
             
-            // Обработчик изменения выбора прошивки
+            // Load metadata for all firmware types
+            const firmwareTypes = ['14band', '16band', '21band'];
+            firmwareTypes.forEach(type => loadFirmwareMetadata(type));
+            
+            // Set 14band as default selected
+            document.getElementById('firmware-14band').checked = true;
+            updateVersionSelector('14band');
+            
+            // Set initial manifest based on metadata
+            const initialVersions = firmwareMetadata['14band'] || [];
+            if (initialVersions.length > 0) {
+                const version = initialVersions[0];
+                document.getElementById('installButton').manifest = `firmware/14band/firmware-${version.version}.json`;
+            }
+            
+            // Handle firmware type selection
             firmwareRadios.forEach(radio => {
                 radio.addEventListener('change', (e) => {
                     if (e.target.checked) {
-                        const firmwareType = e.target.value;
-                        // Удаляем префикс 'firmware-' из значения для отображения
-                        const displayName = firmwareType.replace('firmware-', '').replace('band', '-Band');
-                        installButton.manifest = `${firmwareType}.json`;
-                        showStatus(`Selected firmware: ${firmwareType}`, 'success');
+                        const firmwareType = e.target.value.replace('firmware-', '');
+                        updateVersionSelector(firmwareType);
+                        
+                        // Get the first available version from metadata
+                        const versions = firmwareMetadata[firmwareType] || [];
+                        if (versions.length > 0) {
+                            const version = versions[0];
+                            installButton.manifest = `firmware/${firmwareType}/firmware-${version.version}.json`;
+                            showStatus(`Selected firmware: ${firmwareType} v${version.version}`, 'success');
+                        } else {
+                            showStatus(`No versions available for ${firmwareType}`, 'error');
+                        }
                     }
                 });
+            });
+            
+            // Handle version selection
+            const versionSelect = document.getElementById('versionSelect');
+            versionSelect.addEventListener('change', (e) => {
+                const selectedType = document.querySelector('input[name="firmware"]:checked').value.replace('firmware-', '');
+                const selectedVersion = versionSelect.value;
+                const versions = firmwareMetadata[selectedType] || [];
+                const versionInfo = versions.find(v => v.version === selectedVersion);
+                
+                if (versionInfo) {
+                    // Update the install button to use the specific version manifest
+                    installButton.manifest = `firmware/${selectedType}/firmware-${selectedVersion}.json`;
+                    showStatus(`Selected version: v${selectedVersion}`, 'success');
+                    updateVersionInfo(versionInfo);
+                }
             });
             
             // Функция для отображения статуса
