@@ -422,7 +422,13 @@
             // Set 14band as default selected
             document.getElementById('firmware-14band').checked = true;
             updateVersionSelector('14band');
-            document.getElementById('installButton').manifest = 'firmware/14band/firmware-1.0.0.json';
+            
+            // Set initial manifest based on metadata
+            const initialVersions = firmwareMetadata['14band'] || [];
+            if (initialVersions.length > 0) {
+                const version = initialVersions[0];
+                document.getElementById('installButton').manifest = `firmware/14band/firmware-${version.version}.json`;
+            }
             
             // Handle firmware type selection
             firmwareRadios.forEach(radio => {
@@ -430,8 +436,16 @@
                     if (e.target.checked) {
                         const firmwareType = e.target.value.replace('firmware-', '');
                         updateVersionSelector(firmwareType);
-                        installButton.manifest = `firmware/${firmwareType}/firmware-1.0.${firmwareType === '21band' ? '1' : '0'}.json`;
-                        showStatus(`Selected firmware: ${firmwareType}`, 'success');
+                        
+                        // Get the first available version from metadata
+                        const versions = firmwareMetadata[firmwareType] || [];
+                        if (versions.length > 0) {
+                            const version = versions[0];
+                            installButton.manifest = `firmware/${firmwareType}/firmware-${version.version}.json`;
+                            showStatus(`Selected firmware: ${firmwareType} v${version.version}`, 'success');
+                        } else {
+                            showStatus(`No versions available for ${firmwareType}`, 'error');
+                        }
                     }
                 });
             });
