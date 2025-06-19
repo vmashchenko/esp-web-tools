@@ -1,13 +1,14 @@
 {
   "name": "Spectrum Analyzer 16band v1.0.0",
   "version": "1.0.0",
+  "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32",
       "parts": [
         {
           "path": "16band-v1.0.0.bin",
-          "offset": 65536
+          "offset": 0
         }
       ]
     }
