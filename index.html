@@ -152,6 +152,12 @@
             <h3>Select Firmware Version:</h3>
             <div id="firmwareVersions">
                 <div class="firmware-version">
+                    <input type="radio" id="firmware-14band" name="firmware" value="firmware-14band">
+                    <label for="firmware-14band">
+                        <span class="fw-title">14-Band Spectrum Analyzer</span>
+                    </label>
+                </div>
+                <div class="firmware-version">
                     <input type="radio" id="firmware-16band" name="firmware" value="firmware-16band" checked>
                     <label for="firmware-16band">
                         <span class="fw-title">16-Band Spectrum Analyzer</span>
@@ -189,7 +195,7 @@
                 <li><strong>Click the "CONNECT" button</strong> that appears below</li>
                 <li>In the popup window, <strong>select your device port</strong> (it will look like <code>usbserial-1410</code> or similar)</li>
                 <li>Click <strong>"Install Spectrum Analyzer XX-Band"</strong> (where XX is the number of bands you selected)</li>
-                <li>When prompted to erase the device, <strong>skip it</strong> (we don't need to erase the device)</li>
+                <li>When prompted to erase the device, <strong>select it</strong></li>
                 <li>Click <strong>"Next"</strong> to start the installation</li>
                 <li>Wait for the process to complete (up to 2 minutes) - you'll see a success message when done</li>
             </ol>
@@ -297,8 +303,13 @@
             installButton.parentNode.insertBefore(statusDiv, installButton.nextSibling);
             
             // Load metadata for all firmware types
-            const firmwareTypes = ['16band', '21band'];
+            const firmwareTypes = ['14band', '16band', '21band'];
             firmwareTypes.forEach(type => loadFirmwareMetadata(type));
+            
+            // Set 14band as default selected
+            document.getElementById('firmware-14band').checked = true;
+            updateVersionSelector('14band');
+            document.getElementById('installButton').manifest = 'firmware/14band/firmware-1.0.0.json';
             
             // Handle firmware type selection
             firmwareRadios.forEach(radio => {
