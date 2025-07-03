@@ -13,6 +13,12 @@
       "date": "2025-05-30",
       "description": "Improved FFT algorithm for better frequency response",
       "size": 526300
+    },
+    {
+      "file": "21band-v1.0.2.bin",
+      "version": "1.0.2",
+      "date": "2025-07-03",
+      "description": "Completely redesigned Auto Gain for superior weak signal detection. Enhanced visualization with balanced frequency response and reduced loudness bias."
     }
   ]
 }

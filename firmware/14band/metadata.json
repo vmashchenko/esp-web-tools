@@ -6,6 +6,12 @@
       "file": "14band-v1.0.0.bin",
       "date": "2025-01-01",
       "description": "Initial release of 14-band firmware"
+    },
+    {
+      "version": "1.0.2",
+      "file": "14band-v1.0.2.bin",
+      "date": "2025-07-03",
+      "description": "Redesigned Auto Gain for better weak signal detection. Improved visualization with more balanced frequency response and reduced loudness bias."
     }
   ]
 }
