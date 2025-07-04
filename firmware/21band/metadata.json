@@ -1,24 +1,23 @@
 {
+  "type": "21band",
   "versions": [
     {
       "file": "21band-v1.0.0.bin",
       "version": "1.0.0",
       "date": "2025-01-01",
-      "description": "Initial release of 21-band spectrum analyzer firmware",
-      "size": 526000
+      "description": "Initial release of 21-band spectrum analyzer firmware"
     },
     {
       "file": "21band-v1.0.1.bin",
       "version": "1.0.1",
       "date": "2025-05-30",
-      "description": "Improved FFT algorithm for better frequency response",
-      "size": 526300
+      "description": "Improved FFT algorithm for better frequency response"
     },
     {
-      "file": "21band-v1.0.2.bin",
-      "version": "1.0.2",
-      "date": "2025-07-03",
-      "description": "Completely redesigned Auto Gain for superior weak signal detection. Enhanced visualization with balanced frequency response and reduced loudness bias."
+      "version": "1.0.3",
+      "file": "21band-v1.0.3.bin",
+      "date": "2025-07-04",
+      "description": "Enhanced Auto Gain with adjustable sensitivity via potentiometer. Improved visualization with balanced frequency response and reduced loudness bias for more precise audio analysis."
     }
   ]
 }

@@ -1,17 +1,17 @@
 {
+  "type": "16band",
   "versions": [
     {
       "file": "16band-v1.0.0.bin",
       "version": "1.0.0",
       "date": "2025-05-28",
-      "description": "Initial release of 16-band spectrum analyzer firmware",
-      "size": 524288
+      "description": "Initial release of 16-band spectrum analyzer firmware"
     },
     {
-      "version": "1.0.2",
-      "file": "16band-v1.0.2.bin",
-      "date": "2025-07-03",
-      "description": "Completely redesigned Auto Gain for improved weak signal detection. Enhanced visualization with more balanced frequency response and reduced loudness bias."
+      "version": "1.0.3",
+      "file": "16band-v1.0.3.bin",
+      "date": "2025-07-04",
+      "description": "Enhanced Auto Gain with adjustable sensitivity via potentiometer. Improved visualization with balanced frequency response and reduced loudness bias for more precise audio analysis."
     }
   ]
 }
