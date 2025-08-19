@@ -1,3 +1,5 @@
+# Project URL: https://vmashchenko.github.io/esp-web-tools/
+
 # ESP Web Tools - Spectrum Analyzer
 
 This is a web-based tool for flashing Spectrum Analyzer firmware to ESP32 devices.
