@@ -18,6 +18,12 @@
       "file": "21band-v1.0.3.bin",
       "date": "2025-07-04",
       "description": "Enhanced Auto Gain with adjustable sensitivity via potentiometer. Improved visualization with balanced frequency response and reduced loudness bias for more precise audio analysis."
+    },
+    {
+      "version": "1.0.4",
+      "file": "21band-v1.0.4.bin",
+      "date": "2025-08-19",
+      "description": "Default animation pattern set to colored bars + white peaks (mode 2). In calibration mode DYI1 (pink), the sensitivity of the top frequency bands (17–20 of 21) is doubled."
     }
   ]
 }
