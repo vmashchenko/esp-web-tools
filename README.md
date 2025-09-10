@@ -7,7 +7,7 @@ This is a web-based tool for flashing Spectrum Analyzer firmware to ESP32 device
 ## Features
 
 - Support for multiple firmware versions
-- 16-band and 21-band spectrum analyzer firmware variants
+- 14-band, 16-band and 21-band spectrum analyzer firmware variants
 - Detailed version information and release notes
 - Simple and intuitive web interface
 
@@ -46,6 +46,15 @@ python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000` in your browser.
+
+## Release Notes
+
+### 21-Band v1.0.5 — 2025-09-09
+
+- Increased band #17 sensitivity by ~20%
+- Increased bands #18–#20 sensitivity by ~40%
+- Decreased band #21 sensitivity by ~20–25%
+- Note: We will also explore auto-applying the DYI1 calibration for boosted top frequencies in a future update
 
 ## License
 

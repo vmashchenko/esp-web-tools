@@ -1,13 +1,13 @@
 {
-  "name": "Spectrum Analyzer 21band v1.0.4",
-  "version": "1.0.4",
+  "name": "Spectrum Analyzer 21band v1.0.5",
+  "version": "1.0.5",
   "new_install_prompt_erase": true,
   "builds": [
     {
       "chipFamily": "ESP32",
       "parts": [
         {
-          "path": "21band-v1.0.4.bin",
+          "path": "21band-v1.0.5.bin",
           "offset": 0
         }
       ]
