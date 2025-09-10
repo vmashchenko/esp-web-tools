@@ -336,12 +336,19 @@
                         day: 'numeric'
                     }) : 'Unknown date';
                     option.textContent = `v${version.version} (${formattedDate})`;
-                    if (index === 0) option.selected = true;
+                    // Select the latest (assumed to be the last entry in metadata)
+                    if (index === versions.length - 1) option.selected = true;
                     selector.appendChild(option);
                 });
                 
-                // Show info for the selected version
-                updateVersionInfo(versions[0]);
+                // Show info for the selected (latest) version
+                updateVersionInfo(versions[versions.length - 1]);
+                
+                // Also update the install button manifest to the latest version
+                const installBtn = document.getElementById('installButton');
+                if (installBtn) {
+                    installBtn.manifest = `firmware/${type}/firmware-${versions[versions.length - 1].version}.json`;
+                }
                 
                 // Add change listener
                 selector.onchange = () => {
@@ -423,10 +430,10 @@
             document.getElementById('firmware-14band').checked = true;
             updateVersionSelector('14band');
             
-            // Set initial manifest based on metadata
+            // Set initial manifest to the latest available version (last entry)
             const initialVersions = firmwareMetadata['14band'] || [];
             if (initialVersions.length > 0) {
-                const version = initialVersions[0];
+                const version = initialVersions[initialVersions.length - 1];
                 document.getElementById('installButton').manifest = `firmware/14band/firmware-${version.version}.json`;
             }
             
@@ -437,12 +444,12 @@
                         const firmwareType = e.target.value.replace('firmware-', '');
                         updateVersionSelector(firmwareType);
                         
-                        // Get the first available version from metadata
+                        // Get the latest available version from metadata (last entry)
                         const versions = firmwareMetadata[firmwareType] || [];
                         if (versions.length > 0) {
-                            const version = versions[0];
+                            const version = versions[versions.length - 1];
                             installButton.manifest = `firmware/${firmwareType}/firmware-${version.version}.json`;
-                            showStatus(`Selected firmware: ${firmwareType} v${version.version}`, 'success');
+                            showStatus(`Selected latest firmware: ${firmwareType} v${version.version}`, 'success');
                         } else {
                             showStatus(`No versions available for ${firmwareType}`, 'error');
                         }

@@ -2,18 +2,6 @@
   "type": "21band",
   "versions": [
     {
-      "version": "1.0.5",
-      "file": "21band-v1.0.5.bin",
-      "date": "2025-09-09",
-      "description": "Adjusted top-band sensitivity per client request for expected visualization.",
-      "changes": [
-        "Band #17 sensitivity increased by ~20%",
-        "Bands #18–#20 sensitivity increased by ~40%",
-        "Band #21 sensitivity decreased by ~20–25%",
-        "Planning: explore auto-applying DYI1 calibration for boosted top frequencies"
-      ]
-    },
-    {
       "file": "21band-v1.0.0.bin",
       "version": "1.0.0",
       "date": "2025-01-01",
@@ -36,6 +24,18 @@
       "file": "21band-v1.0.4.bin",
       "date": "2025-08-19",
       "description": "Default animation pattern set to colored bars + white peaks (mode 2). In calibration mode DYI1 (pink), the sensitivity of the top frequency bands (17–20 of 21) is doubled."
+    },
+    {
+      "version": "1.0.5",
+      "file": "21band-v1.0.5.bin",
+      "date": "2025-09-09",
+      "description": "Adjusted top-band sensitivity per client request for expected visualization.",
+      "changes": [
+        "Band #17 sensitivity increased by ~20%",
+        "Bands #18–#20 sensitivity increased by ~40%",
+        "Band #21 sensitivity decreased by ~22%",
+        "Planning: explore auto-applying DYI1 calibration for boosted top frequencies"
+      ]
     }
   ]
 }

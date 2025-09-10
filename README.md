@@ -53,7 +53,7 @@ Then open `http://localhost:8000` in your browser.
 
 - Increased band #17 sensitivity by ~20%
 - Increased bands #18–#20 sensitivity by ~40%
-- Decreased band #21 sensitivity by ~20–25%
+- Decreased band #21 sensitivity by ~22%
 - Note: We will also explore auto-applying the DYI1 calibration for boosted top frequencies in a future update
 
 ## License
