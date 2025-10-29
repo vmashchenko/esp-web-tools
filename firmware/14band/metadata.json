@@ -12,6 +12,12 @@
       "file": "14band-v1.0.3.bin",
       "date": "2025-07-04",
       "description": "Enhanced Auto Gain with adjustable sensitivity via potentiometer. Improved visualization with balanced frequency response and reduced loudness bias for more precise audio analysis."
+    },
+    {
+      "version": "1.0.6",
+      "file": "14band-v1.0.6.bin",
+      "date": "2025-10-29",
+      "description": "New rainbow pattern added: static gradient from red to purple for enhanced visual aesthetics"
     }
   ]
 }
