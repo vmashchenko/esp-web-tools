@@ -18,6 +18,12 @@
       "file": "14band-v1.0.6.bin",
       "date": "2025-10-29",
       "description": "New rainbow pattern added: static gradient from red to purple for enhanced visual aesthetics"
+    },
+    {
+      "version": "1.0.7",
+      "file": "14band-v1.0.7.bin",
+      "date": "2025-10-31",
+      "description": "Colors for rainbow pattern updated."
     }
   ]
 }
