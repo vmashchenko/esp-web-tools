@@ -286,9 +286,11 @@
         // Load firmware metadata
         async function loadFirmwareMetadata(type) {
             try {
+                console.log(`Loading metadata for ${type}...`);
                 const response = await fetch(`firmware/${type}/metadata.json`);
                 if (!response.ok) throw new Error('Failed to load metadata');
                 const data = await response.json();
+                console.log(`Loaded metadata for ${type}:`, data.versions);
                 firmwareMetadata[type] = data.versions;
                 updateFirmwareDisplay(type);
                 return data.versions;
@@ -313,7 +315,10 @@
         
         // Update the version selector dropdown
         function updateVersionSelector(type) {
+            console.log(`Updating version selector for ${type}`);
             const versions = firmwareMetadata[type] || [];
+            console.log(`Available versions for ${type}:`, versions);
+            
             const selector = document.getElementById('versionSelect');
             const versionInfo = document.getElementById('versionInfo');
             const versionSelector = document.getElementById('versionSelector');
@@ -426,16 +431,24 @@
             const firmwareTypes = ['14band', '16band', '21band'];
             firmwareTypes.forEach(type => loadFirmwareMetadata(type));
             
-            // Set 14band as default selected
-            document.getElementById('firmware-14band').checked = true;
-            updateVersionSelector('14band');
-            
-            // Set initial manifest to the latest available version (last entry)
-            const initialVersions = firmwareMetadata['14band'] || [];
-            if (initialVersions.length > 0) {
-                const version = initialVersions[initialVersions.length - 1];
+            // Load metadata for all types and initialize the UI when done
+            Promise.all(firmwareTypes.map(type => loadFirmwareMetadata(type)))
+                .then(() => {
+                    // Set 14band as default selected
+                    document.getElementById('firmware-14band').checked = true;
+                    updateVersionSelector('14band');
+                    
+                    // Set initial manifest to the latest available version (last entry)
+                    const initialVersions = firmwareMetadata['14band'] || [];
+                    if (initialVersions.length > 0) {
+                        const version = initialVersions[initialVersions.length - 1];
                 document.getElementById('installButton').manifest = `firmware/14band/firmware-${version.version}.json`;
-            }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error initializing firmware metadata:', error);
+                    showStatus('Error loading firmware information', 'error');
+                });
             
             // Handle firmware type selection
             firmwareRadios.forEach(radio => {
