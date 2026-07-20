@@ -227,6 +227,12 @@
                         <span class="fw-title">21-Band Spectrum Analyzer</span>
                     </label>
                 </div>
+                <div class="firmware-version">
+                    <input type="radio" id="firmware-28band" name="firmware" value="firmware-28band">
+                    <label for="firmware-28band">
+                        <span class="fw-title">28-Band Spectrum Analyzer</span>
+                    </label>
+                </div>
             </div>
             
             <div id="versionSelector" style="display: none; margin-top: 15px;">
@@ -252,7 +258,7 @@
             <h3>Step-by-Step Instructions:</h3>
             <ol>
                 <li><strong>Connect your LED device</strong> to the computer via USB cable (use a data cable, not just a charging cable)</li>
-                <li><strong>Select the firmware version</strong> from the list above (16-Band or 21-Band)</li>
+                <li><strong>Select the firmware version</strong> from the list above (14-Band, 16-Band, 21-Band, or 28-Band)</li>
                 <li><strong>Click the "CONNECT" button</strong> that appears below</li>
                 <li>In the popup window, <strong>select your device port</strong> (it will look like <code>usbserial-1410</code> or similar)</li>
                 <li>Click <strong>"Install Spectrum Analyzer XX-Band"</strong> (where XX is the number of bands you selected)</li>
@@ -428,7 +434,7 @@
             installButton.parentNode.insertBefore(statusDiv, installButton.nextSibling);
             
             // Load metadata for all firmware types
-            const firmwareTypes = ['14band', '16band', '21band'];
+            const firmwareTypes = ['14band', '16band', '21band', '28band'];
             firmwareTypes.forEach(type => loadFirmwareMetadata(type));
             
             // Load metadata for all types and initialize the UI when done
