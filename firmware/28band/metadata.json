@@ -1,0 +1,11 @@
+{
+  "type": "28band",
+  "versions": [
+    {
+      "file": "28band-v1.0.0.bin",
+      "version": "1.0.0",
+      "date": "2026-07-20",
+      "description": "Initial release of 28-band spectrum analyzer firmware"
+    }
+  ]
+}

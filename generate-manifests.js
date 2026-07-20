@@ -3,7 +3,7 @@ const path = require('path');
 
 function generateManifests() {
   const baseUrl = 'https://raw.githubusercontent.com/vmashchenko/esp-web-tools/gh-pages';
-  const firmwareDirs = ['14band', '16band', '21band'];
+  const firmwareDirs = ['14band', '16band', '21band', '28band'];
   
   firmwareDirs.forEach(dir => {
     const metadataPath = path.join('firmware', dir, 'metadata.json');
