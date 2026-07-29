@@ -24,6 +24,12 @@
       "file": "14band-v1.0.7.bin",
       "date": "2025-10-31",
       "description": "Colors for rainbow pattern updated."
+    },
+    {
+      "version": "1.0.8",
+      "file": "14band-v1.0.8.bin",
+      "date": "2026-07-29",
+      "description": "Adjusted frequency bands #13 and #14 for improved frequency response"
     }
   ]
 }
