@@ -29,7 +29,7 @@
       "version": "1.0.8",
       "file": "14band-v1.0.8.bin",
       "date": "2026-07-29",
-      "description": "Adjusted frequency bands #13 and #14 for improved frequency response"
+      "description": "Adjusted frequency bands #13 and #14 for improved frequency response. Added frequency cutoff to filter out all frequencies above the 14th band."
     }
   ]
 }
