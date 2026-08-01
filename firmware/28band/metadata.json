@@ -6,6 +6,12 @@
       "version": "1.0.0",
       "date": "2026-07-20",
       "description": "Initial release of 28-band spectrum analyzer firmware"
+    },
+    {
+      "file": "28band-v1.0.1.bin",
+      "version": "1.0.1",
+      "date": "2026-08-01",
+      "description": "Added frequency cutoff to filter out all frequencies above the 28th band. Adjusted higher bands (20-28) for frequencies up to 14kHz"
     }
   ]
 }
